@@ -19,7 +19,7 @@ namespace RandomGroup
             List<string> GroupsCopy = File.ReadAllLines("Grupos.txt").ToList();
             List<string> SubjectsCopy = File.ReadAllLines("Temas.txt").ToList();
 
-            Dictionary<int, int> ret = Grouper(StudentsCopy, GroupsCopy);
+            Dictionary<string, string> ret = Grouper(StudentsCopy, GroupsCopy);
 
             foreach (var item in ret)
             {
@@ -33,9 +33,9 @@ namespace RandomGroup
 
 
 
-        public static Dictionary<int,int> Grouper(List<string> repartirList, List<string> gruposList)
+        public static Dictionary<string, string> Grouper(List<string> repartirList, List<string> gruposList)
         {
-            Dictionary<int,int> groupedDictionary = new Dictionary<int, int>();
+            Dictionary<string, string> groupedDictionary = new Dictionary<string, string>();
             int groupId = 0;
 
             while (repartirList.Count > 0)
@@ -48,7 +48,7 @@ namespace RandomGroup
                     {
                         studentId = random.Next(0, repartirList.Count);
                     }
-                    groupedDictionary.Add(studentId, groupId);
+                    groupedDictionary.Add(repartirList[studentId], gruposList[groupId]);
                     groupId++;
                     repartirList.RemoveAt(studentId);
                 }
@@ -56,6 +56,5 @@ namespace RandomGroup
 
             return groupedDictionary;
         }
-
     }
 }
