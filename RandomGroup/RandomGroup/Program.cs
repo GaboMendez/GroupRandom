@@ -11,17 +11,29 @@ namespace RandomGroup
     {
         static void Main(string[] args)
         {
-            string[] Students = File.ReadAllLines("Estudiantes.txt");
-            string[] Groups = File.ReadAllLines("Grupos.txt");
-            string[] Subjects = File.ReadAllLines("Temas.txt");
+            List<string> Students = File.ReadAllLines("Estudiantes.txt").ToList();
+            List<string> Groups = File.ReadAllLines("Grupos.txt").ToList();
+            List<string> Subjects = File.ReadAllLines("Temas.txt").ToList();
 
+            List<string> StudentsCopy = File.ReadAllLines("Estudiantes.txt").ToList();
+            List<string> GroupsCopy = File.ReadAllLines("Grupos.txt").ToList();
+            List<string> SubjectsCopy = File.ReadAllLines("Temas.txt").ToList();
+
+            Dictionary<int, int> ret = Grouper(StudentsCopy, GroupsCopy);
+
+            foreach (var item in ret)
+            {
+
+                Console.WriteLine($"{item.Key} | {item.Value}");
+                Console.WriteLine();
+            }
             Console.WriteLine();
 
         }
 
 
 
-        public Dictionary<int,int> Grouper(List<string> repartirList, List<string> gruposList)
+        public static Dictionary<int,int> Grouper(List<string> repartirList, List<string> gruposList)
         {
             Dictionary<int,int> groupedDictionary = new Dictionary<int, int>();
             int groupId = 0;
