@@ -11,7 +11,10 @@ namespace RandomGroup
     {
         static void Main(string[] args)
         {
-            string[] lines = File.ReadAllLines("Estudiantes.txt");
+            string[] Students = File.ReadAllLines("Estudiantes.txt");
+            string[] Groups = File.ReadAllLines("Grupos.txt");
+            string[] Subjects = File.ReadAllLines("Temas.txt");
+
             Console.WriteLine();
 
         }
