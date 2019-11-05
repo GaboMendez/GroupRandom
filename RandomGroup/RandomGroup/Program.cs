@@ -16,11 +16,9 @@ namespace RandomGroup
             List<string> Subjects = File.ReadAllLines("Temas.txt").ToList();
 
             PrintList(Students, Groups, Subjects);
-
             Console.WriteLine();
 
             int input = 0;
-
             while (input != -1)
             {
                 Console.WriteLine("Presione Enter para Agruparlos o -1 para Salir");
@@ -31,7 +29,7 @@ namespace RandomGroup
                 else 
                     input = Convert.ToInt32(n);
 
-                GroupAll(Students, Groups, Subjects);
+                GroupAll();
                 Console.WriteLine();
             }
             Console.Clear();
@@ -69,37 +67,7 @@ namespace RandomGroup
                 count++;
             }
         }
-        public static Dictionary<string, string> Grouper(List<string> repartirList, List<string> gruposList)
-        {
-            Dictionary<string, string> groupedDictionary = new Dictionary<string, string>();
-            int groupId = 0;
-
-            while (repartirList.Count > 0)
-            {
-                if (groupId.Equals(4))
-                    groupId = 0;
-
-                foreach (var VARIABLE in gruposList)
-                {
-                    Random random = new Random();
-                    int studentId = 0;
-                    if (repartirList.Count > 0)
-                    {
-                        studentId = random.Next(0, repartirList.Count);
-                    }
-                    else
-                        break;
-
-                    groupedDictionary.Add(repartirList[studentId], gruposList[groupId]);
-                    groupId++;
-                    repartirList.RemoveAt(studentId);
-                }
-            }
-
-            return groupedDictionary;
-        }
-
-        public static void GroupAll (List<string> Students, List<string> Groups, List<string> Subjects)
+        public static void GroupAll()
         {
             List<string> StudentsCopy = File.ReadAllLines("Estudiantes.txt").ToList();
             List<string> GroupsCopy = File.ReadAllLines("Grupos.txt").ToList();
@@ -110,7 +78,7 @@ namespace RandomGroup
             Dictionary<string, string> GroupSubjects = Grouper(SubjectsCopy, GroupsCopy);
 
             Console.Clear();
-            foreach (var group in Groups)
+            foreach (var group in GroupsCopy)
             {
                 Console.WriteLine();
                 List<string> printStudents = new List<string>();
@@ -148,5 +116,34 @@ namespace RandomGroup
                 Console.WriteLine();
             }
         }
+        public static Dictionary<string, string> Grouper(List<string> repartirList, List<string> gruposList)
+        {
+            Dictionary<string, string> groupedDictionary = new Dictionary<string, string>();
+            int groupId = 0;
+
+            while (repartirList.Count > 0)
+            {
+                if (groupId.Equals(4))
+                    groupId = 0;
+
+                foreach (var VARIABLE in gruposList)
+                {
+                    Random random = new Random();
+                    int studentId = 0;
+                    if (repartirList.Count > 0)
+                    {
+                        studentId = random.Next(0, repartirList.Count);
+                    }
+                    else
+                        break;
+
+                    groupedDictionary.Add(repartirList[studentId], gruposList[groupId]);
+                    groupId++;
+                    repartirList.RemoveAt(studentId);
+                }
+            }
+
+            return groupedDictionary;
+        }     
     }
 }
