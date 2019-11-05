@@ -17,57 +17,27 @@ namespace RandomGroup
 
             PrintList(Students, Groups, Subjects);
 
-            List<string> StudentsCopy = File.ReadAllLines("Estudiantes.txt").ToList();
-            List<string> GroupsCopy = File.ReadAllLines("Grupos.txt").ToList();
-            List<string> SubjectsCopy = File.ReadAllLines("Temas.txt").ToList();
-
             Console.WriteLine();
-            Console.WriteLine("Presione Enter para Agruparlos!");
-            Console.ReadKey();
 
-            Dictionary<string, string> GroupStudents = Grouper(StudentsCopy, GroupsCopy);
-            Dictionary<string, string> GroupSubjects = Grouper(SubjectsCopy, GroupsCopy);
+            int input = 0;
 
-
-            Console.Clear();
-            foreach (var group in Groups)
+            while (input != -1)
             {
-                Console.WriteLine();
-                List<string> printStudents = new List<string>();
-                List<string> printSubjects = new List<string>();
+                Console.WriteLine("Presione Enter para Agruparlos o -1 para Salir");
+                string n = Console.ReadLine();
 
-                int count = 1;
-                foreach (var item in GroupStudents)
-                {
-                    if (item.Value.Equals(group))
-                    {
-                        printStudents.Add(item.Key);
-                    }
-                }
-                foreach (var item in GroupSubjects)
-                {
-                    if (item.Value.Equals(group))
-                    {
-                        printSubjects.Add(item.Key);
-                    }
-                }
-                
-                Console.WriteLine($"#{group}#");
-                foreach (var item in printStudents)
-                {
-                    Console.WriteLine($"{count}) {item}");
-                    count++;
-                }
-                Console.WriteLine("-Temas: ");
-                foreach (var item in printSubjects)
-                {
-                    Console.Write(item);
-                    Console.Write(" | ");
-                }
+                if (n.Equals(""))
+                    input = 1;
+                else 
+                    input = Convert.ToInt32(n);
 
+                GroupAll(Students, Groups, Subjects);
                 Console.WriteLine();
-            }            
+            }
+            Console.Clear();
+            Console.WriteLine("Se ha salido sastifactoriamente...");
             Console.ReadKey();
+          
         }
 
 
@@ -127,6 +97,56 @@ namespace RandomGroup
             }
 
             return groupedDictionary;
+        }
+
+        public static void GroupAll (List<string> Students, List<string> Groups, List<string> Subjects)
+        {
+            List<string> StudentsCopy = File.ReadAllLines("Estudiantes.txt").ToList();
+            List<string> GroupsCopy = File.ReadAllLines("Grupos.txt").ToList();
+            List<string> SubjectsCopy = File.ReadAllLines("Temas.txt").ToList();
+
+
+            Dictionary<string, string> GroupStudents = Grouper(StudentsCopy, GroupsCopy);
+            Dictionary<string, string> GroupSubjects = Grouper(SubjectsCopy, GroupsCopy);
+
+            Console.Clear();
+            foreach (var group in Groups)
+            {
+                Console.WriteLine();
+                List<string> printStudents = new List<string>();
+                List<string> printSubjects = new List<string>();
+
+                int count = 1;
+                foreach (var item in GroupStudents)
+                {
+                    if (item.Value.Equals(group))
+                    {
+                        printStudents.Add(item.Key);
+                    }
+                }
+                foreach (var item in GroupSubjects)
+                {
+                    if (item.Value.Equals(group))
+                    {
+                        printSubjects.Add(item.Key);
+                    }
+                }
+
+                Console.WriteLine($"#{group}#");
+                foreach (var item in printStudents)
+                {
+                    Console.WriteLine($"{count}) {item}");
+                    count++;
+                }
+                Console.WriteLine("-Temas: ");
+                foreach (var item in printSubjects)
+                {
+                    Console.Write(item);
+                    Console.Write(" | ");
+                }
+
+                Console.WriteLine();
+            }
         }
     }
 }
