@@ -63,7 +63,7 @@ namespace RandomGroup
             count = 1;
             foreach (var item in subjectList)
             {
-                Console.WriteLine($"   {count}- {item}");
+                Console.WriteLine($"  - {item}");
                 count++;
             }
         }
@@ -76,6 +76,7 @@ namespace RandomGroup
 
             Dictionary<string, string> GroupStudents = Grouper(StudentsCopy, GroupsCopy);
             Dictionary<string, string> GroupSubjects = Grouper(SubjectsCopy, GroupsCopy);
+
 
             Console.Clear();
             foreach (var group in GroupsCopy)
@@ -100,13 +101,13 @@ namespace RandomGroup
                     }
                 }
 
-                Console.WriteLine($"#{group}#");
+                Console.WriteLine($"#{group}# Cantidad: {printStudents.Count}" );
                 foreach (var item in printStudents)
                 {
                     Console.WriteLine($"{count}) {item}");
                     count++;
                 }
-                Console.WriteLine("-Temas: ");
+                Console.WriteLine("-Temas: " + printSubjects.Count);
                 foreach (var item in printSubjects)
                 {
                     Console.Write(item);
@@ -120,15 +121,16 @@ namespace RandomGroup
         {
             Dictionary<string, string> groupedDictionary = new Dictionary<string, string>();
             int groupId = 0;
+            Random random = new Random();
 
             while (repartirList.Count > 0)
             {
-                if (groupId.Equals(4))
+                if (groupId.Equals(gruposList.Count))
                     groupId = 0;
 
+                
                 foreach (var VARIABLE in gruposList)
                 {
-                    Random random = new Random();
                     int studentId = 0;
                     if (repartirList.Count > 0)
                     {
