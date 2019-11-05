@@ -15,24 +15,90 @@ namespace RandomGroup
             List<string> Groups = File.ReadAllLines("Grupos.txt").ToList();
             List<string> Subjects = File.ReadAllLines("Temas.txt").ToList();
 
+            PrintList(Students, Groups, Subjects);
+
             List<string> StudentsCopy = File.ReadAllLines("Estudiantes.txt").ToList();
             List<string> GroupsCopy = File.ReadAllLines("Grupos.txt").ToList();
             List<string> SubjectsCopy = File.ReadAllLines("Temas.txt").ToList();
 
-            Dictionary<string, string> ret = Grouper(StudentsCopy, GroupsCopy);
-
-            foreach (var item in ret)
-            {
-
-                Console.WriteLine($"{item.Key} | {item.Value}");
-                Console.WriteLine();
-            }
             Console.WriteLine();
+            Console.WriteLine("Presione Enter para Agruparlos!");
+            Console.ReadKey();
 
+            Dictionary<string, string> GroupStudents = Grouper(StudentsCopy, GroupsCopy);
+            Dictionary<string, string> GroupSubjects = Grouper(SubjectsCopy, GroupsCopy);
+
+
+            Console.Clear();
+            foreach (var group in Groups)
+            {
+                Console.WriteLine();
+                List<string> printStudents = new List<string>();
+                List<string> printSubjects = new List<string>();
+
+                int count = 1;
+                foreach (var item in GroupStudents)
+                {
+                    if (item.Value.Equals(group))
+                    {
+                        printStudents.Add(item.Key);
+                    }
+                }
+                foreach (var item in GroupSubjects)
+                {
+                    if (item.Value.Equals(group))
+                    {
+                        printSubjects.Add(item.Key);
+                    }
+                }
+                
+                Console.WriteLine($"#{group}#");
+                foreach (var item in printStudents)
+                {
+                    Console.WriteLine($"{count}) {item}");
+                    count++;
+                }
+                Console.WriteLine("-Temas: ");
+                foreach (var item in printSubjects)
+                {
+                    Console.Write(item);
+                    Console.Write(" | ");
+                }
+
+                Console.WriteLine();
+            }            
+            Console.ReadKey();
         }
 
 
+        public static void PrintList(List<string> studentList, List<string> groupList, List<string> subjectList)
+        {
+            Console.WriteLine("###Lista de Estudiantes###");
+            int count = 1;
+            foreach (var item in studentList)
+            {
+                Console.WriteLine($"   {count}- {item}");
+                count++;
+            }           
 
+            Console.WriteLine();
+            Console.WriteLine("###Lista de Grupos###");
+            count = 1;
+            foreach (var item in groupList)
+            {
+                Console.WriteLine($"   {count}- {item}");
+                count++;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("###Lista de Temas###");
+            count = 1;
+            foreach (var item in subjectList)
+            {
+                Console.WriteLine($"   {count}- {item}");
+                count++;
+            }
+        }
         public static Dictionary<string, string> Grouper(List<string> repartirList, List<string> gruposList)
         {
             Dictionary<string, string> groupedDictionary = new Dictionary<string, string>();
@@ -40,6 +106,9 @@ namespace RandomGroup
 
             while (repartirList.Count > 0)
             {
+                if (groupId.Equals(4))
+                    groupId = 0;
+
                 foreach (var VARIABLE in gruposList)
                 {
                     Random random = new Random();
@@ -48,6 +117,9 @@ namespace RandomGroup
                     {
                         studentId = random.Next(0, repartirList.Count);
                     }
+                    else
+                        break;
+
                     groupedDictionary.Add(repartirList[studentId], gruposList[groupId]);
                     groupId++;
                     repartirList.RemoveAt(studentId);
