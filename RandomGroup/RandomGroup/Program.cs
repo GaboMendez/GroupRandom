@@ -74,8 +74,8 @@ namespace RandomGroup
             List<string> SubjectsCopy = File.ReadAllLines("Temas.txt").ToList();
 
 
-            Dictionary<string, string> GroupStudents = Grouper(StudentsCopy, GroupsCopy);
-            Dictionary<string, string> GroupSubjects = Grouper(SubjectsCopy, GroupsCopy);
+            Dictionary<string, string> GroupStudents = GrouperUltimate(StudentsCopy, GroupsCopy);
+            Dictionary<string, string> GroupSubjects = GrouperUltimate(SubjectsCopy, GroupsCopy);
 
 
             Console.Clear();
@@ -145,7 +145,74 @@ namespace RandomGroup
                 }
             }
 
+            if (repartirList.Any())
+            {
+                int studentId = 0;
+
+                foreach (var VARIABLE in repartirList)
+                {
+
+                    groupId = random.Next(0, gruposList.Count);
+                    groupedDictionary.Add(VARIABLE, gruposList[groupId]);
+                    repartirList.RemoveAt(studentId);
+                    studentId++;
+                }
+            }
+
             return groupedDictionary;
-        }     
+        }
+
+        public static Dictionary<string, string> GrouperUltimate(List<string> repartirList, List<string> gruposList)
+        {
+            Dictionary<string, string> groupedDictionary = new Dictionary<string, string>();
+            int groupId = 0;
+            Random random = new Random();
+
+            int mod = repartirList.Count % gruposList.Count;
+
+            while (repartirList.Count > mod)
+            {
+                if (groupId.Equals(gruposList.Count))
+                    groupId = 0;
+
+
+                foreach (var VARIABLE in gruposList)
+                {
+                    int studentId = 0;
+                    if (repartirList.Count > 0)
+                    {
+                        studentId = random.Next(0, repartirList.Count);
+                    }
+                    else
+                        break;
+
+                    groupedDictionary.Add(repartirList[studentId], gruposList[groupId]);
+                    groupId++;
+                    repartirList.RemoveAt(studentId);
+                }
+            }
+
+            if (repartirList.Any())
+            {
+                int noRepeater = int.MaxValue;
+
+                for (int i = 0; i < mod; i++ )
+                {
+                    groupId = random.Next(0, gruposList.Count);
+                    if (groupId != noRepeater)
+                    {
+                        noRepeater = groupId;
+                        groupedDictionary.Add(repartirList[0], gruposList[groupId]);
+                        repartirList.RemoveAt(0);
+                    }
+                    else
+                    {
+                        i--;
+                    }
+                }
+            }
+
+            return groupedDictionary;
+        }
     }
 }
